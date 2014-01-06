@@ -1,10 +1,13 @@
 package sf.lw.qsqldb.parse;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+
 
 
 public class ParerDQL extends SqlParserBase {
-
+	private HashMap parameters   = new HashMap();
+	
     public  ParerDQL(Scanner scanner){
     	super(scanner);
     }
@@ -235,6 +238,8 @@ public class ParerDQL extends SqlParserBase {
             case Tokens.QUESTION :
                 ExpressionColumn p =
                     new ExpressionColumn(OpTypes.DYNAMIC_PARAM);
+                p.parameterIndex = parameters.size();
+                
 //                compileContext.addParameter(p, getPosition());
                 read();
                 return p;
@@ -250,17 +255,23 @@ public class ParerDQL extends SqlParserBase {
 		return e;
 	}
 	
-	public void readWhere(){
+	public Expression readWhere(){
 		read();
 		Expression e = XreadBooleanValueExpression_or();
+		return e;
 	}
 	
 	public static  void main(String arg[]) throws ClassNotFoundException, SQLException{
 		ParerDQL parerDQL=new ParerDQL(new Scanner());
-		parerDQL.scanner.reset("6=? and '1'=?  and -9=?");
+		parerDQL.scanner.reset("6.1=?");
 		
-		parerDQL.readWhere();
+		Expression e=parerDQL.readWhere();
+		Session session=new Session();
+		Object s[]={6};
+		session.sessionContext=new SessionContext();
+		session.sessionContext.dynamicArguments= s;
 		
+		e.getValue(session);
 	}
 	
 	

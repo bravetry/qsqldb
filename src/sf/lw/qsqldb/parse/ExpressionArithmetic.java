@@ -1,7 +1,6 @@
 package sf.lw.qsqldb.parse;
 
-import org.hsqldb.OpTypes;
-import org.hsqldb.Session;
+
 
 public class ExpressionArithmetic extends Expression{
 
@@ -38,6 +37,7 @@ public class ExpressionArithmetic extends Expression{
             case OpTypes.VALUE :
                 return valueData;
         }
+        return null;
     }
     
 

@@ -1,7 +1,5 @@
 package sf.lw.qsqldb.parse;
 
-import org.hsqldb.OpTypes;
-import org.hsqldb.Session;
 
 
 public class ExpressionLogical extends Expression {
@@ -37,7 +35,12 @@ public class ExpressionLogical extends Expression {
 	
 	public Object getValue(Session session){
 		switch(opType){
-		    case OpTypes.EQUAL :
+
+		   case OpTypes.EQUAL :
+			     //TODO 多值
+			     Object vl=nodes[LEFT].getValue(session);
+			     Object vr=nodes[RIGHT].getValue(session);
+			     return compareValues(session, vl, vr);
 		   case OpTypes.AND:
 			     Boolean b1=(Boolean) nodes[LEFT].getValue(session);
 			     if(Boolean.FALSE.equals(b1)){
@@ -57,6 +60,21 @@ public class ExpressionLogical extends Expression {
            default:throw new RuntimeException("非法表达式");
 		}
 	}
+	
+	public Boolean compareValues(Session session,Object left,Object right){
+		int result=0;
+		if(left==null||right==null){
+			return null;
+		}
+		result=nodes[LEFT].dataType.compare(session, left, right,opType);
+		switch(opType){
+		    case OpTypes.EQUAL :
+		         return result==0?Boolean.TRUE:Boolean.FALSE;
+		    default: throw new RuntimeException("目前不支持该类型的比较"+opType); 
+		}
+	}
+	
+	
 	
     public boolean testCondition(Session session) {
         return Boolean.TRUE.equals(getValue(session));

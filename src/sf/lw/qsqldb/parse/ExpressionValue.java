@@ -11,4 +11,8 @@ public class ExpressionValue extends Expression{
 		this.dataType=datatype;
 		this.valueData=value;
 	}
+	@Override
+	public Object getValue(Session session){
+		return valueData;
+	}
 }

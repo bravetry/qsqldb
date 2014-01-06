@@ -7,6 +7,8 @@ public class Expression {
    Type      dataType;
    
    
+   int parameterIndex = -1;
+   
    public static final int LEFT    = 0;//左边
    public static final int RIGHT   = 1;//右边
    public static final int UNARY   = 1;//一元组

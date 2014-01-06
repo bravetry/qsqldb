@@ -6,7 +6,14 @@ public class Test {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Test t=new Test();
+		
+		Integer a=new Integer(1);
+		Integer b=new Integer(1);
+		if(a==b){
+			Test t=new Test();
+		}
+		
+		
 //     System.out.println(Integer.MAX_VALUE);
 //     System.out.println(Integer.MIN_VALUE);
 //     System.out.println(Character.isLetter('s'));
